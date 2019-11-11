@@ -7,6 +7,10 @@ import kotlin.concurrent.thread
 
 fun main(args: Array<String>) {
 
+
+}
+
+private fun printHelloWorldByCoroutiens() {
     // print hello world using coroutines launch method
     // delay in this case not blocking the thread unlike the sleep method
     GlobalScope.launch {
@@ -15,5 +19,4 @@ fun main(args: Array<String>) {
     }
     print("Hello")
     Thread.sleep(1500)
-
 }
