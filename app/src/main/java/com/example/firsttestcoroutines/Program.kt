@@ -62,7 +62,7 @@ private fun printHelloWorldByCoroutiens3() = runBlocking {
     doWork()
 }
 
-// suspend mean that this block will run in coroutiens block 
+// suspend mean that this block will run in coroutiens block
 private suspend fun doWork() {
     delay(1500)
 }
