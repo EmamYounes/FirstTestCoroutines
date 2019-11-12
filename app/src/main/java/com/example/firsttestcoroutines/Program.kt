@@ -9,7 +9,8 @@ import java.util.concurrent.atomic.AtomicInteger
 fun main(args: Array<String>) {
 //    printHelloWorldByCoroutiens()
 //    incrementNumber()
-    incrementNumber2()
+//    printHelloWorldByCoroutiens2()
+    printHelloWorldByCoroutiens3()
 }
 
 private fun printHelloWorldByCoroutiens() {
@@ -39,7 +40,7 @@ private fun incrementNumber() {
 
 // run coroutines inside coroutines
 
-private fun incrementNumber2() = runBlocking {
+private fun printHelloWorldByCoroutiens2() = runBlocking {
 
     GlobalScope.launch {
         delay(1000)
@@ -47,5 +48,20 @@ private fun incrementNumber2() = runBlocking {
     }
     print("Hello , ")
 
+    doWork()
+}
+
+private fun printHelloWorldByCoroutiens3() = runBlocking {
+
+    GlobalScope.launch {
+        delay(1000)
+        print("world  ")
+    }
+    print("Hello , ")
+
+    doWork()
+}
+
+private suspend fun doWork() {
     delay(1500)
 }
