@@ -3,11 +3,11 @@ package com.example.firsttestcoroutines
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.concurrent.thread
+import java.util.concurrent.atomic.AtomicInteger
 
 fun main(args: Array<String>) {
-
-
+//    printHelloWorldByCoroutiens()
+    incrementNumber()
 }
 
 private fun printHelloWorldByCoroutiens() {
@@ -19,4 +19,13 @@ private fun printHelloWorldByCoroutiens() {
     }
     print("Hello")
     Thread.sleep(1500)
+}
+
+private fun incrementNumber() {
+    val result = AtomicInteger()
+    for (i in 1..1_500_00)
+        GlobalScope.launch {
+            result.getAndIncrement()
+        }
+    print(result.get())
 }
