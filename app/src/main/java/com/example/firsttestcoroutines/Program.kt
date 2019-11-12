@@ -3,11 +3,13 @@ package com.example.firsttestcoroutines
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.concurrent.atomic.AtomicInteger
 
 fun main(args: Array<String>) {
 //    printHelloWorldByCoroutiens()
-    incrementNumber()
+//    incrementNumber()
+    incrementNumber2()
 }
 
 private fun printHelloWorldByCoroutiens() {
@@ -29,4 +31,21 @@ private fun incrementNumber() {
         }
     Thread.sleep(1000)
     print(result.get())
+}
+
+
+// runBlocking block the thread if delay method is call
+// launch didn't block the thread if delay method is call
+
+// run coroutines inside coroutines
+
+private fun incrementNumber2() = runBlocking {
+
+    GlobalScope.launch {
+        delay(1000)
+        print("world  ")
+    }
+    print("Hello , ")
+
+    delay(1500)
 }
