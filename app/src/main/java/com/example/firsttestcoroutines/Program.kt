@@ -27,5 +27,6 @@ private fun incrementNumber() {
         GlobalScope.launch {
             result.getAndIncrement()
         }
+    Thread.sleep(1000)
     print(result.get())
 }
