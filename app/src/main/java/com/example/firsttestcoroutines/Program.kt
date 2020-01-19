@@ -8,7 +8,8 @@ fun main(args: Array<String>) {
 //    incrementNumber()
 //    printHelloWorldByCoroutiens2()
 //    printHelloWorldByCoroutiens3()
-    printDote2()
+//    printDote2()
+    timeOut()
 }
 
 private fun printHelloWorldByCoroutiens() {
@@ -88,7 +89,20 @@ private fun printDote2() = runBlocking {
     job.cancelAndJoin()
     print("done")
 }
+private fun timeOut() = runBlocking {
 
+    // after time out it will be end the job 
+    val job= withTimeoutOrNull(100) {
+        repeat(1000){
+            yield()
+            print(".")
+            Thread.sleep(1)
+        }
+    }
+if (job==null){
+    print("Time Out")
+}
+}
 // suspend mean that this block will run in coroutiens block
 private suspend fun doWork() {
     delay(1500)
