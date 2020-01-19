@@ -91,7 +91,7 @@ private fun printDote2() = runBlocking {
 }
 private fun timeOut() = runBlocking {
 
-    // after time out it will be end the job 
+    // after time out it will be end the job
     val job= withTimeoutOrNull(100) {
         repeat(1000){
             yield()
