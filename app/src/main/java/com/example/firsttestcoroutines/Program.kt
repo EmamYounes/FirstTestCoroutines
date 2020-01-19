@@ -10,7 +10,8 @@ fun main(args: Array<String>) {
 //    printHelloWorldByCoroutiens()
 //    incrementNumber()
 //    printHelloWorldByCoroutiens2()
-    printHelloWorldByCoroutiens3()
+//    printHelloWorldByCoroutiens3()
+    printDote()
 }
 
 private fun printHelloWorldByCoroutiens() {
@@ -53,15 +54,28 @@ private fun printHelloWorldByCoroutiens2() = runBlocking {
 
 private fun printHelloWorldByCoroutiens3() = runBlocking {
 
-    GlobalScope.launch {
+  val job= launch {
         delay(1000)
         print("world  ")
     }
     print("Hello , ")
 
-    doWork()
+    job.join()
 }
+private fun printDote() = runBlocking {
 
+    val job= launch {
+        repeat(1000){
+            delay(100)
+            print(".")
+        }
+    }
+
+    delay(2500)
+    job.cancel()
+    job.join()
+    print("done")
+}
 // suspend mean that this block will run in coroutiens block
 private suspend fun doWork() {
     delay(1500)
