@@ -1,9 +1,6 @@
 package com.example.firsttestcoroutines
 
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import java.util.concurrent.atomic.AtomicInteger
 
 fun main(args: Array<String>) {
@@ -72,8 +69,9 @@ private fun printDote() = runBlocking {
     }
 
     delay(2500)
-    job.cancel()
-    job.join()
+/*    job.cancel()
+    job.join()*/
+    job.cancelAndJoin()
     print("done")
 }
 // suspend mean that this block will run in coroutiens block
