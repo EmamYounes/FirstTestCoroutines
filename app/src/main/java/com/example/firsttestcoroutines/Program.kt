@@ -8,7 +8,7 @@ fun main(args: Array<String>) {
 //    incrementNumber()
 //    printHelloWorldByCoroutiens2()
 //    printHelloWorldByCoroutiens3()
-    printDote()
+    printDote2()
 }
 
 private fun printHelloWorldByCoroutiens() {
@@ -74,6 +74,21 @@ private fun printDote() = runBlocking {
     job.cancelAndJoin()
     print("done")
 }
+private fun printDote2() = runBlocking {
+
+    val job= launch {
+        repeat(1000){
+            if (!isActive) return@launch
+            print(".")
+            Thread.sleep(1)
+        }
+    }
+
+    delay(100)
+    job.cancelAndJoin()
+    print("done")
+}
+
 // suspend mean that this block will run in coroutiens block
 private suspend fun doWork() {
     delay(1500)
