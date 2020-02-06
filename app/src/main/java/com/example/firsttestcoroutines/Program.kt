@@ -16,12 +16,7 @@ fun main(args: Array<String>) = runBlocking {
 //    jobs.forEach { it -> it.join() }
 //    printActivation()
 //    parentChildRelationships()
-    newSingleThreadContext("SingleThreadContext").use { ctx->
-        val job=launch(ctx) {
-            println("thread name  : ${Thread.currentThread().name}")
-        }
-        job.join()
-    }
+    newSingleThread()
 }
 
 private fun printHelloWorldByCoroutiens() {
@@ -153,4 +148,13 @@ private suspend fun CoroutineScope.parentChildRelationships() {
     outer.join()
     println()
     println("Outer is Finished")
+}
+
+private suspend fun CoroutineScope.newSingleThread() {
+    newSingleThreadContext("SingleThreadContext").use { ctx ->
+        val job = launch(ctx) {
+            println("thread name  : ${Thread.currentThread().name}")
+        }
+        job.join()
+    }
 }
