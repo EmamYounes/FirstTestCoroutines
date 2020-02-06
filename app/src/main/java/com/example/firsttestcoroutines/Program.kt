@@ -14,7 +14,8 @@ fun main(args: Array<String>) = runBlocking {
 //    val jobs = arrayListOf<Job>()
 //    createJobs(jobs)
 //    jobs.forEach { it -> it.join() }
-    printActivation()
+//    printActivation()
+    parentChildRelationships()
 }
 
 private fun printHelloWorldByCoroutiens() {
@@ -133,4 +134,17 @@ private suspend fun CoroutineScope.printActivation() {
         print("isActive  ${coroutineContext[Job]!!.isActive}")
     }
     job.join()
+}
+private suspend fun CoroutineScope.parentChildRelationships() {
+    val outer = launch {
+        launch(coroutineContext) {
+            repeat(1000) {
+                print(".")
+            }
+            delay(1)
+        }
+    }
+    outer.join()
+    println()
+    println("Outer is Finished")
 }
