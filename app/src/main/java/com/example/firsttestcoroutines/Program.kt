@@ -1,15 +1,19 @@
 package com.example.firsttestcoroutines
 
 import kotlinx.coroutines.*
+import java.lang.Thread.yield
 import java.util.concurrent.atomic.AtomicInteger
 
-fun main(args: Array<String>) {
-//    printHelloWorldByCoroutiens()
+fun main(args: Array<String>) = runBlocking {
+    //    printHelloWorldByCoroutiens()
 //    incrementNumber()
 //    printHelloWorldByCoroutiens2()
 //    printHelloWorldByCoroutiens3()
 //    printDote2()
-    timeOut()
+//    timeOut()
+    val jobs = arrayListOf<Job>()
+    createJobs(jobs)
+    jobs.forEach { it -> it.join() }
 }
 
 private fun printHelloWorldByCoroutiens() {
@@ -52,7 +56,7 @@ private fun printHelloWorldByCoroutiens2() = runBlocking {
 
 private fun printHelloWorldByCoroutiens3() = runBlocking {
 
-  val job= launch {
+    val job = launch {
         delay(1000)
         print("world  ")
     }
@@ -60,10 +64,11 @@ private fun printHelloWorldByCoroutiens3() = runBlocking {
 
     job.join()
 }
+
 private fun printDote() = runBlocking {
 
-    val job= launch {
-        repeat(1000){
+    val job = launch {
+        repeat(1000) {
             delay(100)
             print(".")
         }
@@ -75,10 +80,11 @@ private fun printDote() = runBlocking {
     job.cancelAndJoin()
     print("done")
 }
+
 private fun printDote2() = runBlocking {
 
-    val job= launch {
-        repeat(1000){
+    val job = launch {
+        repeat(1000) {
             if (!isActive) return@launch
             print(".")
             Thread.sleep(1)
@@ -89,21 +95,35 @@ private fun printDote2() = runBlocking {
     job.cancelAndJoin()
     print("done")
 }
+
 private fun timeOut() = runBlocking {
 
     // after time out it will be end the job
-    val job= withTimeoutOrNull(100) {
-        repeat(1000){
+    val job = withTimeoutOrNull(100) {
+        repeat(1000) {
             yield()
             print(".")
             Thread.sleep(1)
         }
     }
-if (job==null){
-    print("Time Out")
+    if (job == null) {
+        print("Time Out")
+    }
 }
-}
+
 // suspend mean that this block will run in coroutiens block
 private suspend fun doWork() {
     delay(1500)
+}
+
+private fun CoroutineScope.createJobs(jobs: ArrayList<Job>) {
+    jobs += launch {
+        println("          default : In Thread ${Thread.currentThread().name}")
+    }
+    jobs += launch(coroutineContext) {
+        println("          coroutineContext : In Thread ${Thread.currentThread().name}")
+    }
+    jobs += launch(newSingleThreadContext("new thread")) {
+        println("          new thread : In Thread ${Thread.currentThread().name}")
+    }
 }
