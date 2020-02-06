@@ -15,7 +15,13 @@ fun main(args: Array<String>) = runBlocking {
 //    createJobs(jobs)
 //    jobs.forEach { it -> it.join() }
 //    printActivation()
-    parentChildRelationships()
+//    parentChildRelationships()
+    newSingleThreadContext("SingleThreadContext").use { ctx->
+        val job=launch(ctx) {
+            println("thread name  : ${Thread.currentThread().name}")
+        }
+        job.join()
+    }
 }
 
 private fun printHelloWorldByCoroutiens() {
