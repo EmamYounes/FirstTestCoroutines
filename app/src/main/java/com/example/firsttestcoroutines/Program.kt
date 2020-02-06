@@ -11,9 +11,10 @@ fun main(args: Array<String>) = runBlocking {
 //    printHelloWorldByCoroutiens3()
 //    printDote2()
 //    timeOut()
-    val jobs = arrayListOf<Job>()
-    createJobs(jobs)
-    jobs.forEach { it -> it.join() }
+//    val jobs = arrayListOf<Job>()
+//    createJobs(jobs)
+//    jobs.forEach { it -> it.join() }
+    printActivation()
 }
 
 private fun printHelloWorldByCoroutiens() {
@@ -126,4 +127,10 @@ private fun CoroutineScope.createJobs(jobs: ArrayList<Job>) {
     jobs += launch(newSingleThreadContext("new thread")) {
         println("          new thread : In Thread ${Thread.currentThread().name}")
     }
+}
+private suspend fun CoroutineScope.printActivation() {
+    val job = launch {
+        print("isActive  ${coroutineContext[Job]!!.isActive}")
+    }
+    job.join()
 }
