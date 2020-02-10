@@ -3,6 +3,8 @@ package com.example.firsttestcoroutines
 import kotlinx.coroutines.*
 import java.lang.Thread.yield
 import java.util.concurrent.atomic.AtomicInteger
+import kotlin.random.Random
+import kotlin.system.measureTimeMillis
 
 fun main(args: Array<String>) = runBlocking {
     //    printHelloWorldByCoroutiens()
@@ -16,7 +18,21 @@ fun main(args: Array<String>) = runBlocking {
 //    jobs.forEach { it -> it.join() }
 //    printActivation()
 //    parentChildRelationships()
-    newSingleThread()
+//    newSingleThread()
+
+    simpleAsyncAwait()
+}
+
+private suspend fun CoroutineScope.simpleAsyncAwait() {
+    val job = launch {
+        val time = measureTimeMillis {
+            val r1: Deferred<Int> = async { doWorkOne() }
+            val r2: Deferred<Int> = async { doWorkTwo() }
+            println(r1.await() + r2.await())
+        }
+        println("Done in : $time")
+    }
+    job.join()
 }
 
 private fun printHelloWorldByCoroutiens() {
@@ -130,12 +146,14 @@ private fun CoroutineScope.createJobs(jobs: ArrayList<Job>) {
         println("          new thread : In Thread ${Thread.currentThread().name}")
     }
 }
+
 private suspend fun CoroutineScope.printActivation() {
     val job = launch {
         print("isActive  ${coroutineContext[Job]!!.isActive}")
     }
     job.join()
 }
+
 private suspend fun CoroutineScope.parentChildRelationships() {
     val outer = launch {
         launch(coroutineContext) {
@@ -157,4 +175,16 @@ private suspend fun CoroutineScope.newSingleThread() {
         }
         job.join()
     }
+}
+
+suspend fun doWorkOne(): Int {
+    delay(100)
+    println("working 1")
+    return Random(System.currentTimeMillis()).nextInt(42)
+}
+
+suspend fun doWorkTwo(): Int {
+    delay(100)
+    println("working 2")
+    return Random(System.currentTimeMillis()).nextInt(42)
 }
