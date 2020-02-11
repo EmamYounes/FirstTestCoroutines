@@ -20,7 +20,24 @@ fun main(args: Array<String>) = runBlocking {
 //    parentChildRelationships()
 //    newSingleThread()
 
-    simpleAsyncAwait()
+//    simpleAsyncAwait()
+    lazilyAsync()
+}
+
+private fun CoroutineScope.lazilyAsync() {
+    val job = launch {
+        val result = async(start = CoroutineStart.LAZY) {
+            doWorkLazy()
+        }
+        println("The Result is${result.await()}")
+    }
+}
+
+suspend fun doWorkLazy(): Int {
+    println("Be lazy")
+    delay(200)
+    println("lazy done")
+    return 42
 }
 
 private suspend fun CoroutineScope.simpleAsyncAwait() {
